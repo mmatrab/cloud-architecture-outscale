@@ -1,5 +1,5 @@
-# Infrastructure Cloud avec Terraform
+# Cloud Infrastructure with Terraform
 
-Projet d'infrastructure cloud utilisant Terraform sur 3DS OUTSCALE.
+Cloud infrastructure project using Terraform on 3DS OUTSCALE.
 
-Consultez [le rapport détaillé](docs/rapport.md) pour plus d'informations.
+See [the detailed report](docs/report.md) for more information.
