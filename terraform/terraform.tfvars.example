@@ -1,0 +1,17 @@
+# Credentials OUTSCALE
+access_key_id = "YOUR_ACCESS_KEY"
+secret_key_id = "YOUR_SECRET_KEY"
+region        = "eu-west-2"
+
+# Configuration du projet
+project_name    = "cloud-infra"
+instance_count  = 2
+
+# Configuration réseau
+vpc_cidr            = "10.0.0.0/16"
+public_subnet_cidr  = "10.0.1.0/24"
+private_subnet_cidr = "10.0.2.0/24"
+
+# Types d'instances
+bastion_type = "tinav2.c1r1p3"
+web_type     = "tinav2.c1r1p3"

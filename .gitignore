@@ -1,0 +1,14 @@
+# Fichiers Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+.terraform.lock.hcl
+terraform.tfvars
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Clés SSH
+*.pem
+*.key
