@@ -4,8 +4,6 @@
 | Nom                                    | Contact                                            |
 |----------------------------------------|----------------------------------------------------|
 | Mohamed Matrab                         | mohamed.matrab@epita.fr                            |
-| Bahaaeddine Tahri joutey hassani       | bahaaeddine.tahri-joutey-hassani@epita.fr          |
-| Jules Leroquais                        | jules.leroquais@epita.fr                           |
 
 ---
 
