@@ -19,7 +19,7 @@
 9. [Maintenance](#maintenance)
 
 ## Introduction
-
+this project is a school project made to 
 Ce projet implémente une infrastructure cloud sécurisée sur 3DS OUTSCALE en utilisant Terraform. L'architecture comprend un VPC avec des sous-réseaux public et privé, un bastion host pour l'accès SSH sécurisé, et des serveurs web redondants derrière un équilibreur de charge.
 
 ## Architecture
