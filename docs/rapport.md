@@ -1,116 +1,115 @@
-# Documentation Infrastructure Cloud avec Terraform
+# Cloud Infrastructure Documentation with Terraform
 
-## Auteurs
-| Nom                                    | Contact                                            |
-|----------------------------------------|----------------------------------------------------|
-| Mohamed Matrab                         | mohamed.matrab@epita.fr                            |
+## Authors
+| Name                                    | Contact                                            |
+|-----------------------------------------|----------------------------------------------------|
+| Mohamed Matrab                          | mohamed.matrab@epita.fr                            |
 
 ---
 
-## Table des matières
+## Table of Contents
 1. [Introduction](#introduction)
 2. [Architecture](#architecture)
-3. [Concepts Clés](#concepts-clés)
-4. [Prérequis](#prérequis)
-5. [Structure du Projet](#structure-du-projet)
-6. [Guide Pas à Pas](#guide-pas-à-pas)
-7. [Tests et Validation](#tests-et-validation)
-8. [Dépannage](#dépannage)
+3. [Key Concepts](#key-concepts)
+4. [Prerequisites](#prerequisites)
+5. [Project Structure](#project-structure)
+6. [Step-by-Step Guide](#step-by-step-guide)
+7. [Tests and Validation](#tests-and-validation)
+8. [Troubleshooting](#troubleshooting)
 9. [Maintenance](#maintenance)
 
 ## Introduction
-this project is a school project made to 
-Ce projet implémente une infrastructure cloud sécurisée sur 3DS OUTSCALE en utilisant Terraform. L'architecture comprend un VPC avec des sous-réseaux public et privé, un bastion host pour l'accès SSH sécurisé, et des serveurs web redondants derrière un équilibreur de charge.
+This project designed to deploy a secure cloud infrastructure on 3DS OUTSCALE using Terraform. The architecture includes a VPC with public and private subnets, a bastion host for secure SSH access, and redundant web servers behind a load balancer.
 
 ## Architecture
 
-### Composants
+### Components
 - **VPC (10.0.0.0/16)**
-  - Sous-réseau public (10.0.1.0/24)
-  - Sous-réseau privé (10.0.2.0/24)
+  - Public subnet (10.0.1.0/24)
+  - Private subnet (10.0.2.0/24)
   - Internet Gateway
   - NAT Gateway
 
 - **Instances**
-  - Bastion (sous-réseau public)
-  - 2 serveurs web (sous-réseau privé)
+  - Bastion (public subnet)
+  - 2 web servers (private subnet)
 
-- **Sécurité**
-  - Groupes de sécurité distincts pour chaque composant
-  - Accès SSH via bastion uniquement
-  - Load Balancer pour distribution du trafic web
+- **Security**
+  - Separate security groups for each component
+  - SSH access only through the bastion
+  - Load balancer to distribute web traffic
 
-### Diagramme d'Architecture
-![Architecture Infrastructure](./mermaid-diagram.png)
+### Architecture Diagram
+![Infrastructure Architecture](./mermaid-diagram.png)
 
-## Concepts Clés pour Non-Spécialistes
+## Key Concepts for Non-Specialists
 
-### Composants de Base
+### Core Components
 
 #### VPC (Virtual Private Cloud)
-  Un VPC est comme un centre de données virtuel privé dans le cloud. C'est un espace isolé où vous pouvez déployer vos ressources en toute sécurité. Imaginez-le comme un immeuble sécurisé avec différents étages (subnets).
+  A VPC is like a private data center in the cloud. It is an isolated space where you can safely deploy resources—think of it as a secure building with multiple floors (subnets).
 
-#### Subnets (Sous-réseaux)
-Les subnets sont des divisions de votre VPC. Notre architecture utilise deux types :
-  - **Subnet Public** : Accessible depuis Internet, comme le hall d'entrée de l'immeuble
-  - **Subnet Privé** : Protégé d'Internet, comme les étages sécurisés de l'immeuble
+#### Subnets
+Subnets are divisions of your VPC. This architecture uses two types:
+  - **Public subnet**: Accessible from the Internet, like the building lobby
+  - **Private subnet**: Protected from the Internet, like secured floors
 
 #### Bastion Host
-Le bastion est comme un gardien de sécurité. C'est le seul point d'entrée autorisé pour accéder à vos serveurs. Il permet de :
-  - Centraliser les accès
-  - Renforcer la sécurité
-  - Auditer les connexions
+The bastion acts as the security guard. It is the only allowed entry point to reach your servers, enabling you to:
+  - Centralize access
+  - Strengthen security
+  - Audit connections
 
-#### Load Balancer (Équilibreur de charge)
-Le load balancer est comme un répartiteur de trafic. Il :
-  - Distribue les visiteurs entre différents serveurs
-  - Assure une haute disponibilité
-  - Protège contre les surcharges
+#### Load Balancer
+The load balancer is the traffic dispatcher. It:
+  - Distributes visitors across multiple servers
+  - Ensures high availability
+  - Protects against overloads
 
-### Sécurité
+### Security
 
-#### Security Groups (Groupes de Sécurité)
-Fonctionnent comme des gardiens virtuels qui :
-  - Contrôlent qui peut accéder à quoi
-  - Définissent des règles précises (qui peut parler à qui)
-  - Protègent chaque composant individuellement
+#### Security Groups
+They behave like virtual guards that:
+  - Control who can access what
+  - Define precise rules (who can talk to whom)
+  - Protect each component individually
 
 #### NAT Gateway
-Permet aux serveurs privés d'accéder à Internet sans être exposés directement, comme un intermédiaire de confiance.
+Lets private servers access the Internet without being exposed, acting as a trusted intermediary.
 
-### Haute Disponibilité
+### High Availability
 
-Notre architecture assure une haute disponibilité grâce à :
-  - Plusieurs serveurs web
-  - Répartition automatique du trafic
-  - Surveillance continue de la santé des serveurs
+This architecture delivers high availability through:
+  - Multiple web servers
+  - Automatic traffic distribution
+  - Continuous health checks
 
-### Pourquoi Cette Architecture ?
+### Why This Architecture?
 
-1. **Sécurité** :
-   - Serveurs web protégés dans le réseau privé
-   - Accès contrôlé via le bastion
-   - Filtrage du trafic à plusieurs niveaux
+1. **Security**:
+   - Web servers protected in the private network
+   - Access controlled through the bastion
+   - Traffic filtering at multiple layers
 
-2. **Performance** :
-   - Distribution de charge automatique
-   - Adaptation aux pics de trafic
-   - Temps de réponse optimisé
+2. **Performance**:
+   - Automatic load distribution
+   - Adapts to traffic spikes
+   - Optimized response time
 
-3. **Maintenabilité** :
-   - Configuration centralisée avec Terraform
-   - Mises à jour facilitées
-   - Surveillance simplifiée
+3. **Maintainability**:
+   - Centralized configuration with Terraform
+   - Easier updates
+   - Simplified monitoring
 
-## Prérequis
+## Prerequisites
 
-- Compte 3DS OUTSCALE actif
-- Access Key et Secret Key OUTSCALE
-- Terraform v1.0.0 ou supérieur
-- Client SSH
-- Ubuntu 22.04 ou supérieur pour les instances
+- Active 3DS OUTSCALE account
+- OUTSCALE Access Key and Secret Key
+- Terraform v1.0.0 or newer
+- SSH client
+- Ubuntu 22.04 or newer for instances
 
-## Structure du Projet
+## Project Structure
 ```
 project-root/
 ├── README.md
@@ -131,176 +130,176 @@ project-root/
     └── loadbalancer.tf
 ```
 
-## Guide Pas à Pas
+## Step-by-Step Guide
 
-### Première Utilisation
+### First Use
 
-1. **Préparation**
+1. **Prepare**
    ```bash
-   # Copier le fichier d'exemple
+   # Copy the example file
    cp terraform.tfvars.example terraform.tfvars
    
-   # Éditer le fichier avec vos identifiants
+   # Edit the file with your credentials
    nano terraform.tfvars
    ```
 
-2. **Initialisation**
+2. **Initialize**
    ```bash
    cd terraform
    terraform init
    ```
-   Cette commande télécharge les plugins nécessaires.
+   This command downloads the required plugins.
 
-3. **Vérification**
+3. **Review**
    ```bash
    terraform plan
    ```
-   Examinez les ressources qui seront créées.
+   Review the resources that will be created.
 
-4. **Déploiement**
+4. **Deploy**
    ```bash
    terraform apply
    ```
-   Confirmez avec "yes" quand demandé.
+   Confirm with "yes" when prompted.
 
-### Vérification du Déploiement
+### Deployment Verification
 
-1. **Connexion au Bastion**
+1. **Connect to the Bastion**
    ```bash
-   # La commande exacte est fournie dans les outputs
+   # The exact command is provided in the outputs
    ssh -i ssh_key.pem outscale@<BASTION_IP>
    ```
 
-2. **Test des Serveurs Web**
+2. **Test the Web Servers**
    ```bash
-   # Depuis le bastion
+   # From the bastion
    ssh outscale@<WEB_SERVER_IP>
    
-   # Vérifier Apache
+   # Check Apache
    systemctl status apache2
    ```
 
-3. **Test du Load Balancer**
-   - Ouvrez l'URL du load balancer dans un navigateur
-   - Faites plusieurs rafraîchissements
-   - Observez l'alternance entre les serveurs
+3. **Test the Load Balancer**
+   - Open the load balancer URL in a browser
+   - Refresh several times
+   - Observe the alternation between servers
 
-### Maintenance Courante
+### Routine Maintenance
 
-1. **Mise à Jour de l'Infrastructure**
+1. **Update the Infrastructure**
    ```bash
-   # Appliquer des modifications
+   # Apply modifications
    terraform apply
    ```
 
-2. **Ajout de Serveurs**
-   - Modifiez `instance_count` dans terraform.tfvars
-   - Exécutez `terraform apply`
+2. **Add Servers**
+   - Update `instance_count` in terraform.tfvars
+   - Run `terraform apply`
 
-3. **Surveillance**
-   - Vérifiez les logs Apache
-   - Surveillez les health checks du load balancer
-   - Monitored le trafic réseau
+3. **Monitoring**
+   - Check Apache logs
+   - Watch load balancer health checks
+   - Monitor network traffic
 
-### Arrêt et Nettoyage
+### Shutdown and Cleanup
 
-1. **Destruction de l'Infrastructure**
+1. **Destroy the Infrastructure**
    ```bash
    terraform destroy
    ```
 
-2. **Nettoyage Local**
+2. **Local Cleanup**
    ```bash
    ./cleanup.sh
    ```
 
-### Résolution des Problèmes Courants
+### Common Issue Resolution
 
-1. **Erreur de Connexion SSH**
-   - Vérifiez les permissions de la clé
-   - Confirmez que le bastion est accessible
-   - Vérifiez les règles de sécurité
+1. **SSH Connection Error**
+   - Check key permissions
+   - Confirm the bastion is reachable
+   - Verify security rules
 
-2. **Serveur Web Inaccessible**
-   - Vérifiez le statut Apache
-   - Contrôlez les règles de sécurité
-   - Vérifiez les logs
+2. **Web Server Unreachable**
+   - Check Apache status
+   - Verify security rules
+   - Review logs
 
-## Tests et Validation
+## Tests and Validation
 
-### 1. Accès SSH au Bastion
+### 1. SSH Access to the Bastion
 ```bash
-# Configuration de la clé SSH
+# Configure the SSH key
 chmod 400 ssh_key.pem
 
-# Connexion au bastion
+# Connect to the bastion
 ssh -i ssh_key.pem outscale@<BASTION_IP>
 ```
 
-### 2. Accès aux Serveurs Web
-Depuis le bastion :
+### 2. Access to Web Servers
+From the bastion:
 ```bash
-# Configuration des clés sur le bastion
+# Key setup on the bastion
 mkdir -p ~/.ssh
 chmod 700 ~/.ssh
 chmod 600 ~/.ssh/id_rsa
 
-# Connexion aux serveurs web
-ssh outscale@10.0.2.241  # Serveur Web 1
-ssh outscale@10.0.2.23   # Serveur Web 2
+# Connect to the web servers
+ssh outscale@10.0.2.241  # Web Server 1
+ssh outscale@10.0.2.23   # Web Server 2
 ```
 
-### 3. Test du Load Balancer
+### 3. Load Balancer Test
 ```bash
-# Test d'accès au load balancer
+# Access the load balancer
 curl http://<LOAD_BALANCER_DNS>
 
-# Test de répartition de charge
+# Check load distribution
 for i in {1..10}; do 
   curl -s http://<LOAD_BALANCER_DNS> | grep "Hostname"
   sleep 1
 done
 ```
 
-## Dépannage
+## Troubleshooting
 
-### Problèmes Courants
+### Common Problems
 
-1. **Problème d'accès SSH**
-   - Vérifier les permissions de la clé (chmod 400)
-   - Vérifier les groupes de sécurité
-   - Vérifier la connectivité réseau
+1. **SSH Access Issue**
+   - Check key permissions (chmod 400)
+   - Check security groups
+   - Check network connectivity
 
-2. **Serveur Web Inaccessible**
-   - Vérifier le statut Apache : `systemctl status apache2`
-   - Vérifier les logs : `sudo tail /var/log/apache2/error.log`
-   - Vérifier les règles de sécurité
+2. **Web Server Unreachable**
+   - Check Apache status: `systemctl status apache2`
+   - Check logs: `sudo tail /var/log/apache2/error.log`
+   - Check security rules
 
 3. **Load Balancer**
-   - Vérifier l'enregistrement des instances
-   - Vérifier les health checks
-   - Vérifier les règles de sécurité
+   - Check instance registration
+   - Check health checks
+   - Check security rules
 
 ## Maintenance
 
-### Mise à Jour de l'Infrastructure
+### Infrastructure Updates
 ```bash
-terraform plan    # Vérifier les changements
-terraform apply   # Appliquer les changements
+terraform plan    # Review changes
+terraform apply   # Apply changes
 ```
 
-### Nettoyage
+### Cleanup
 ```bash
-terraform destroy # Supprimer toute l'infrastructure
+terraform destroy # Remove the entire infrastructure
 ```
 
-### Sauvegardes
-- State Terraform : Conserver terraform.tfstate
-- Clés SSH : Sauvegarder ssh_key.pem
+### Backups
+- Terraform state: keep terraform.tfstate
+- SSH keys: back up ssh_key.pem
 
-## Notes de Sécurité
+## Security Notes
 
-- Les clés SSH sont générées automatiquement
-- Accès SSH uniquement via le bastion
-- Serveurs web dans le réseau privé
-- Trafic web filtré par le load balancer
+- SSH keys are generated automatically
+- SSH access only through the bastion
+- Web servers stay in the private network
+- Web traffic is filtered by the load balancer
