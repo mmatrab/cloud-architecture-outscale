@@ -1,15 +1,15 @@
 #!/bin/bash
 
-# Installation des paquets nécessaires
+# Installation of the required packages 
 apt-get update
 apt-get install -y apache2
 
-# Création de la page web personnalisée
+# Create the custom web page
 cat > /var/www/html/index.html << 'EOF'
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Serveur Web OUTSCALE</title>
+    <title>OUTSCALE Web Server</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -30,7 +30,7 @@ cat > /var/www/html/index.html << 'EOF'
 </head>
 <body>
     <div class="container">
-        <h1>Bienvenue sur le serveur web OUTSCALE</h1>
+        <h1>Welcome to the OUTSCALE Web Server</h1>
         <div class="server-info">
             <p>Hostname: $(hostname)</p>
             <p>IP: $(hostname -I | cut -d' ' -f1)</p>
@@ -41,10 +41,10 @@ cat > /var/www/html/index.html << 'EOF'
 </html>
 EOF
 
-# Configuration des droits
+# Configuration of permissions
 chown -R www-data:www-data /var/www/html
 chmod -R 755 /var/www/html
 
-# Démarrage du service Apache
+# Starting the Apache service
 systemctl enable apache2
 systemctl start apache2
